@@ -1,0 +1,29 @@
+﻿<Page x:Class="HotelRent.Pages.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HotelRent.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="250"
+      Title="MenuPage">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <Button x:Name="btnMainPage" 
+                    Content="Главная"
+                    Style="{StaticResource ButtonMenuStyle1}"/>
+            <Button x:Name="btnListHotel"
+                    Content="Список отелей"
+                    Style="{StaticResource ButtonMenuStyle1}"/>
+            <Button x:Name="btnListEmployee"
+                    Content="Список работников"
+                    Style="{StaticResource ButtonMenuStyle1}"
+                    Click="btnListEmployee_Click"/>
+           
+            <Button Style="{StaticResource ButtonMenuStyle1}"/>
+            <Button Style="{StaticResource ButtonMenuStyle1}"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
