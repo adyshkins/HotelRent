@@ -23,13 +23,26 @@ namespace HotelRent.Pages
     public partial class ListEmployeePage : Page
     {
         List<Employee> employees = new List<Employee>();
+
         public ListEmployeePage()
         {
             InitializeComponent();
 
-            employees = AppData.context.Employee.ToList();
+            GetList();
+        }
+
+        private void GetList()
+        {
+            employees = AppData.Context.Employee.ToList();
+
+            // фильтры сотрировка 
 
             lvEmployee.ItemsSource = employees;
+        }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ClassHelper.NavigateClass.frame.Navigate(new Pages.AddEditEmployeePage());
         }
     }
 }
