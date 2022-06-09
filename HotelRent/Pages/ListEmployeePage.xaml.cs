@@ -40,9 +40,42 @@ namespace HotelRent.Pages
             lvEmployee.ItemsSource = employees;
         }
 
+        private void DeleteItem()
+        {
+            if (lvEmployee.SelectedItem is Employee)
+            {
+                var result = MessageBox.Show("Удалить пользователя?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+
+                var empDel = lvEmployee.SelectedItem as Employee;
+                AppData.Context.Employee.Remove(empDel);
+                AppData.Context.SaveChanges();
+                MessageBox.Show("Пользователь удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                GetList();
+            }
+            else
+            {
+                MessageBox.Show("Ничего не выбрано", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             ClassHelper.NavigateClass.frame.Navigate(new Pages.AddEditEmployeePage());
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteItem();
+        }
+
+        private void lvEmployee_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            DeleteItem();
         }
     }
 }

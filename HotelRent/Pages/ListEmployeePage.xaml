@@ -22,7 +22,8 @@
                    HorizontalAlignment="Center"/>
 
         <ListView x:Name="lvEmployee"
-                  Grid.Row="2">
+                  Grid.Row="2"
+                  KeyUp="lvEmployee_KeyUp">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Код" Width="30" DisplayMemberBinding="{Binding IdEmployee}"/>
@@ -58,7 +59,8 @@
                     Height="35"
                     Content="Удалить"
                     FontSize="16"
-                    Margin="10 0"/>
+                    Margin="10 0"
+                    Click="BtnDelete_Click"/>
         </WrapPanel>
     </Grid>
 </Page>
