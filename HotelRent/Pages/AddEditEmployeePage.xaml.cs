@@ -20,6 +20,10 @@ namespace HotelRent.Pages
     /// </summary>
     public partial class AddEditEmployeePage : Page
     {
+
+        private bool isEdit = false;
+        private EF.Employee editEmployee;
+        
         public AddEditEmployeePage()
         {
             InitializeComponent();
@@ -27,10 +31,32 @@ namespace HotelRent.Pages
             CmbRole.ItemsSource = ClassHelper.AppData.Context.Role.ToList();
             CmbRole.DisplayMemberPath = "NameRole";
             CmbRole.SelectedIndex = 0;
-
         }
 
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        public AddEditEmployeePage(EF.Employee employee)
+        {
+            editEmployee = employee;
+            InitializeComponent();
+            TbTitle.Text = "Изменение работника";
+
+
+            TxbLastName.Text = employee.LastName;
+            TxbFirstName.Text = employee.FirstName;
+            TxbEmail.Text = employee.Email; 
+            TxbPhone.Text = employee.Phone;
+            TxbLogin.Text = employee.Login;
+            PswPassword.Password = employee.Password;
+
+
+            CmbRole.ItemsSource = ClassHelper.AppData.Context.Role.ToList();
+            CmbRole.DisplayMemberPath = "NameRole";
+            CmbRole.SelectedIndex = employee.IdRole - 1;
+
+            isEdit = true;
+        }
+
+
+            private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             ClassHelper.NavigateClass.frame.GoBack();
         }
@@ -52,23 +78,41 @@ namespace HotelRent.Pages
                 return;
             }
 
-            var result = MessageBox.Show("Добавить пользователя?", "Подтверждение",MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (isEdit)
             {
-                EF.Employee employee = new EF.Employee();
+                editEmployee.LastName = TxbLastName.Text;
+                editEmployee.FirstName = TxbFirstName.Text;
+                editEmployee.Login = TxbLogin.Text;
+                editEmployee.Password = PswPassword.Password;
+                editEmployee.Phone = TxbPhone.Text;
+                editEmployee.Email = TxbEmail.Text;
+                editEmployee.IdRole = CmbRole.SelectedIndex + 1;
 
-                employee.LastName = TxbLastName.Text;
-                employee.FirstName = TxbFirstName.Text;
-                employee.Login = TxbLogin.Text;
-                employee.Password = PswPassword.Password;
-                employee.Phone = TxbPhone.Text;
-                employee.Email = TxbEmail.Text;
-                employee.IdRole = CmbRole.SelectedIndex + 1;
-                ClassHelper.AppData.Context.Employee.Add(employee);
                 ClassHelper.AppData.Context.SaveChanges();
 
-                MessageBox.Show("Сотрудник добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Данные успешно изменены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClassHelper.NavigateClass.frame.Navigate(new Pages.ListEmployeePage());
+            }
+            else
+            {
+                var result = MessageBox.Show("Добавить пользователя?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    EF.Employee employee = new EF.Employee();
+
+                    employee.LastName = TxbLastName.Text;
+                    employee.FirstName = TxbFirstName.Text;
+                    employee.Login = TxbLogin.Text;
+                    employee.Password = PswPassword.Password;
+                    employee.Phone = TxbPhone.Text;
+                    employee.Email = TxbEmail.Text;
+                    employee.IdRole = CmbRole.SelectedIndex + 1;
+                    ClassHelper.AppData.Context.Employee.Add(employee);
+                    ClassHelper.AppData.Context.SaveChanges();
+
+                    MessageBox.Show("Сотрудник добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    ClassHelper.NavigateClass.frame.Navigate(new Pages.ListEmployeePage());
+                }
             }
             
         }

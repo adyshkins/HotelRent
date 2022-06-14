@@ -23,7 +23,7 @@
 
         <ListView x:Name="lvEmployee"
                   Grid.Row="2"
-                  KeyUp="lvEmployee_KeyUp">
+                  KeyUp="lvEmployee_KeyUp" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Код" Width="30" DisplayMemberBinding="{Binding IdEmployee}"/>
@@ -52,7 +52,8 @@
                     Height="35"
                     Content="Изменить"
                     FontSize="16"
-                    Margin="10 0"/>
+                    Margin="10 0"
+                    Click="BtnEdit_Click"/>
 
             <Button x:Name="BtnDelete"
                     Width="150"

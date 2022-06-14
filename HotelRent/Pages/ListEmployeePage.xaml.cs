@@ -27,7 +27,6 @@ namespace HotelRent.Pages
         public ListEmployeePage()
         {
             InitializeComponent();
-
             GetList();
         }
 
@@ -76,6 +75,25 @@ namespace HotelRent.Pages
         {
             if (e.Key == Key.Delete)
             DeleteItem();
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvEmployee.SelectedItem is Employee)
+            {
+                var result = MessageBox.Show("Изменить пользователя?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                var empEdit = lvEmployee.SelectedItem as Employee;
+
+                ClassHelper.NavigateClass.frame.Navigate(new Pages.AddEditEmployeePage(empEdit));
+
+
+            }
+
+
         }
     }
 }
