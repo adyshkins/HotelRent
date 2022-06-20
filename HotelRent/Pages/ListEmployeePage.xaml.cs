@@ -23,19 +23,59 @@ namespace HotelRent.Pages
     public partial class ListEmployeePage : Page
     {
         List<Employee> employees = new List<Employee>();
+        List<string> listSort = new List<string>()
+        { 
+            "По умолчанию",
+            "По фамилии",
+            "По имени",
+            "По должности"
+        };
 
         public ListEmployeePage()
         {
             InitializeComponent();
+
+            CmbSort.ItemsSource = listSort;
+            CmbSort.SelectedIndex = 0;
             GetList();
         }
 
         private void GetList()
         {
+            // Получаем весь список
             employees = AppData.Context.Employee.ToList();
 
-            // фильтры сотрировка 
+            // Поиск
+            employees = employees.
+                Where(i => i.LastName.ToLower().Contains(TxbSearch.Text.ToLower())
+                || i.FirstName.ToLower().Contains(TxbSearch.Text.ToLower())).ToList();
+            // Сортировка
 
+            int selectedItemSort = CmbSort.SelectedIndex;
+            switch (selectedItemSort)
+            {
+                case 0: 
+                    employees = employees.OrderBy(i => i.IdEmployee).ToList();    
+                    break;
+
+                case 1:
+                    employees = employees.OrderBy(i => i.LastName).ToList();
+                    break;
+
+                case 2:
+                    employees = employees.OrderBy(i => i.FirstName).ToList();
+                    break;
+
+                case 3:
+                    employees = employees.OrderBy(i => i.IdRole).ToList();
+                    break;
+
+                default:
+                    employees = employees.OrderBy(i => i.IdEmployee).ToList();
+                    break;
+            }
+
+            // Выгрузка в листвью
             lvEmployee.ItemsSource = employees;
         }
 
@@ -94,6 +134,15 @@ namespace HotelRent.Pages
             }
 
 
+        }
+        private void TxbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetList();
+        }
+
+        private void CmbSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GetList();
         }
     }
 }

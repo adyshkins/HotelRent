@@ -21,6 +21,27 @@
                    FontSize="35"
                    HorizontalAlignment="Center"/>
 
+        <WrapPanel Grid.Row="1"
+                   VerticalAlignment="Center">
+            <TextBlock Text="Поиск:"
+                       FontSize="25"
+                       Margin="20 0 10 0"/>
+
+            <TextBox x:Name="TxbSearch"
+                     Width="150"
+                     FontSize="20"
+                     VerticalContentAlignment="Center" TextChanged="TxbSearch_TextChanged"/>
+
+            <TextBlock Text="Сортировка по:"
+                       FontSize="25"
+                       Margin="20 0 10 0"/>
+            <ComboBox x:Name="CmbSort"
+                      Width="200"
+                      FontSize="20"
+                      VerticalContentAlignment="Center"
+                      Margin="10 0" SelectionChanged="CmbSort_SelectionChanged"/>
+        </WrapPanel>
+
         <ListView x:Name="lvEmployee"
                   Grid.Row="2"
                   KeyUp="lvEmployee_KeyUp" d:ItemsSource="{d:SampleData ItemCount=5}">
